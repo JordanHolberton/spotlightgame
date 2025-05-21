@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    /* Supprime les marges par défaut du navigateur */
+    background-color: #000;
+    /* Fond noir pour toute la page */
+    overflow: hidden;
+    /* Empêche les barres de défilement */
+    font-family: Arial, sans-serif;
+    /* Police par défaut, si nécessaire */
+    -webkit-tap-highlight-color: transparent;
+    /* Empêche le flash bleu au toucher sur mobile */
+}
+
+#game-area {
+    position: relative;
+    width: 100vw;
+    /* Pleine largeur de la fenêtre */
+    height: 100vh;
+    /* Pleine hauteur de la fenêtre */
+    background-color: #000;
+    /* Assure que la zone de jeu est noire */
+    cursor: none;
+    /* Cache le curseur de la souris */
+    overflow: hidden;
+    /* Empêche le contenu de déborder de la zone de jeu */
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.hidden-word {
+    position: absolute;
+    color: #000;
+    /* Mots écrits en noir, donc invisibles sur fond noir */
+    font-size: 24px;
+    /* Taille des mots, ajustable */
+    font-weight: bold;
+    white-space: nowrap;
+    /* Empêche le retour à la ligne des mots */
+    pointer-events: none;
+    /* Les mots ne doivent pas intercepter les événements souris/toucher */
+    z-index: 2;
+    /* Les mots sont au-dessus du spotlight */
+}
+
+#spotlight {
+    position: absolute;
+    width: 200px;
+    /* Diamètre du halo de lumière */
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(255, 255, 230, 0.85) 0%,
+            /* Centre de la lumière (jaune très clair) */
+            rgba(255, 255, 230, 0.7) 25%,
+            rgba(200, 200, 150, 0.3) 50%,
+            rgba(0, 0, 0, 0) 70%
+            /* Bord extérieur transparent */
+        );
+    pointer-events: none;
+    /* Le halo ne doit pas intercepter les événements */
+    transform: translate(-50%, -50%);
+    /* Centre le halo sur le curseur/doigt */
+    display: none;
+    /* Caché initialement */
+    z-index: 1;
+    /* Le spotlight est derrière les mots mais au-dessus du fond noir */
+}
+
+/* Media Query pour les petits écrans (par exemple, mobiles) */
+@media (max-width: 768px) {
+    .hidden-word {
+        font-size: 18px;
+        /* Réduire la taille de la police pour les petits écrans */
+    }
+
+    #spotlight {
+        width: 150px;
+        /* Réduire la taille du halo */
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hidden-word {
+        font-size: 14px;
+        /* Taille de police encore plus petite pour très petits écrans */
+    }
+
+    #spotlight {
+        width: 100px;
+        /* Halo plus petit pour très petits écrans */
+        height: 100px;
+    }
+}
