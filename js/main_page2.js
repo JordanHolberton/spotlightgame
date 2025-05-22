@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // MODIFIEZ CETTE LISTE POUR LA PAGE 2
     const wordsToHide = [
         { text: "LOCAL", top: 70, left: 120 },
-        { text: "PORTE-MANTEAU", top: 400, left: 300 },
-        { text: "CASIER", top: 600, left: 150 }
+        { text: "PORTE-MANTEAU", top: 400, left: 250 },
+        { text: "CASIER", top: 700, left: 150 }
         // Ajoutez d'autres mots et positions pour la page 2
     ];
 
