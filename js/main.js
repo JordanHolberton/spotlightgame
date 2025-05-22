@@ -6,25 +6,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remplacez ces valeurs par les dimensions réelles de votre #spotlight en CSS
     const SPOTLIGHT_WIDTH = 100; // Largeur du spotlight en pixels
     const SPOTLIGHT_HEIGHT = 100; // Hauteur du spotlight en pixels
-    const GAP_ABOVE_FINGER = 20; // Espace en pixels entre le doigt et le bas du spotlight
+    // Nouvelle constante : de combien de pixels le CENTRE du halo doit être AU-DESSUS du doigt.
+    const CENTER_Y_OFFSET_ABOVE_FINGER = 30; // Par exemple, 30px au-dessus. Ajustez selon vos besoins.
 
     // Calcul des décalages
+    // Pour le centrage horizontal : décaler de la moitié de la largeur du spotlight.
     const spotlightOffsetX = SPOTLIGHT_WIDTH / 2;
-    const spotlightOffsetY = SPOTLIGHT_HEIGHT + GAP_ABOVE_FINGER;
+    // Pour le positionnement vertical :
+    // Le 'top' du spotlight doit être y_doigt - (hauteur_demi_spotlight + decalage_centre_au_dessus_doigt)
+    const spotlightOffsetY = (SPOTLIGHT_HEIGHT / 2) + CENTER_Y_OFFSET_ABOVE_FINGER;
     // --- Fin de la configuration du Spotlight ---
 
-    // Modifiez ici pour inclure les positions top/left souhaitées pour chaque mot
     const wordsToHide = [
-        { text: "LOCAL", top: 50, left: 100 },   // Exemple: mot "LOCAL" à 50px du haut, 100px de la gauche
-        { text: "DEVOIRS", top: 350, left: 250 }, // Exemple: mot "DEVOIRS" à 150px du haut, 250px de la gauche
-        { text: "TABLE", top: 650, left: 80 }    // Exemple: mot "TABLE" à 250px du haut, 80px de la gauche
-        // Ajoutez d'autres mots avec leurs positions ici
+        { text: "LOCAL", top: 50, left: 100 },
+        { text: "DEVOIRS", top: 350, left: 250 },
+        { text: "TABLE", top: 650, left: 80 }
     ];
-
-    // Ces constantes ne sont plus utilisées pour le placement si les positions sont prédéfinies,
-    // mais la fonction areRectsTooClose peut toujours être utile pour d'autres logiques si besoin.
-    // const MIN_DISTANCE_BETWEEN_WORDS = 50;
-    // const MAX_PLACEMENT_ATTEMPTS = 100;
 
     /**
      * Vérifie si deux rectangles sont trop proches, en considérant une séparation minimale.
@@ -45,18 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const areaRect = gameArea.getBoundingClientRect(); // Dimensions de la zone de jeu
+        const areaRect = gameArea.getBoundingClientRect();
 
         wordsToHide.forEach(wordObject => {
             const wordElement = document.createElement('span');
             wordElement.classList.add('hidden-word');
             wordElement.textContent = wordObject.text;
 
-            // Appliquer les positions prédéfinies
-            // Assurez-vous que les positions sont valides et à l'intérieur de gameArea si nécessaire
-            // Pour l'instant, nous appliquons directement les valeurs fournies.
-
-            // Il est toujours bon de s'assurer que les coordonnées sont des nombres
             const topPos = parseFloat(wordObject.top);
             const leftPos = parseFloat(wordObject.left);
 
@@ -69,24 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 wordElement.style.top = `${topPos}px`;
                 wordElement.style.left = `${leftPos}px`;
             }
-
             gameArea.appendChild(wordElement);
-
-            // Optionnel : vérifier si les mots prédéfinis se chevauchent (à titre informatif)
-            // Si vous voulez cette vérification, vous devrez stocker les rectangles des mots placés
-            // et utiliser areRectsTooClose. Pour l'instant, nous faisons confiance aux positions prédéfinies.
-            /*
-            const wordBCR = wordElement.getBoundingClientRect();
-            const currentWordRect = {
-                top: topPos, // ou wordBCR.top - areaRect.top si vous voulez les coordonnées relatives après placement
-                left: leftPos, // ou wordBCR.left - areaRect.left
-                right: leftPos + wordBCR.width,
-                bottom: topPos + wordBCR.height
-            };
-            // ... puis comparer avec les autres mots placés si vous tenez un tableau `placedWordRects`
-            */
         });
     }
+
 
     function updateSpotlight(x, y) {
         if (!spotlight) {
@@ -94,9 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Appliquer les décalages pour centrer horizontalement et positionner au-dessus verticalement
-        const finalX = x - spotlightOffsetX;
-        const finalY = y - spotlightOffsetY;
+        const finalX = x - spotlightOffsetX; // Centre horizontalement
+        const finalY = y - spotlightOffsetY; // Positionne verticalement comme calculé
 
         spotlight.style.left = `${finalX}px`;
         spotlight.style.top = `${finalY}px`;
