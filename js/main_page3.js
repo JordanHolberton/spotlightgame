@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const wordsToHide = [
         { text: "LOCAL", top: 100, left: 50 },
         { text: "CUISINE", top: 250, left: 200 },
-        { text: "PLACARD", top: 450, left: 100 }
+        { text: "PLACARD", top: 650, left: 100 }
         // Ajoutez d'autres mots et positions pour la page 3
     ];
 
