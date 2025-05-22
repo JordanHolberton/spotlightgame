@@ -2,11 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameArea = document.getElementById('game-area');
     const spotlight = document.getElementById('spotlight');
 
+    // --- Configuration du Spotlight ---
+    // Remplacez ces valeurs par les dimensions réelles de votre #spotlight en CSS
+    const SPOTLIGHT_WIDTH = 100; // Largeur du spotlight en pixels
+    const SPOTLIGHT_HEIGHT = 100; // Hauteur du spotlight en pixels
+    const GAP_ABOVE_FINGER = 20; // Espace en pixels entre le doigt et le bas du spotlight
+
+    // Calcul des décalages
+    const spotlightOffsetX = SPOTLIGHT_WIDTH / 2;
+    const spotlightOffsetY = SPOTLIGHT_HEIGHT + GAP_ABOVE_FINGER;
+    // --- Fin de la configuration du Spotlight ---
+
     // Modifiez ici pour inclure les positions top/left souhaitées pour chaque mot
     const wordsToHide = [
         { text: "LOCAL", top: 50, left: 100 },   // Exemple: mot "LOCAL" à 50px du haut, 100px de la gauche
-        { text: "DEVOIRS", top: 450, left: 250 }, // Exemple: mot "DEVOIRS" à 150px du haut, 250px de la gauche
-        { text: "TABLE", top: 750, left: 80 }    // Exemple: mot "TABLE" à 250px du haut, 80px de la gauche
+        { text: "DEVOIRS", top: 350, left: 250 }, // Exemple: mot "DEVOIRS" à 150px du haut, 250px de la gauche
+        { text: "TABLE", top: 650, left: 80 }    // Exemple: mot "TABLE" à 250px du haut, 80px de la gauche
         // Ajoutez d'autres mots avec leurs positions ici
     ];
 
@@ -82,8 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("L'élément #spotlight est introuvable.");
             return;
         }
-        spotlight.style.left = `${x}px`;
-        spotlight.style.top = `${y}px`;
+
+        // Appliquer les décalages pour centrer horizontalement et positionner au-dessus verticalement
+        const finalX = x - spotlightOffsetX;
+        const finalY = y - spotlightOffsetY;
+
+        spotlight.style.left = `${finalX}px`;
+        spotlight.style.top = `${finalY}px`;
         spotlight.style.display = 'block';
     }
 
